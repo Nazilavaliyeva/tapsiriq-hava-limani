@@ -20,12 +20,15 @@ namespace tapsiriq //hava_limani
             {
                 Console.WriteLine("Xahis edirik istifadeci adini daxil edin:");
                 string istifadeciAdi = Console.ReadLine();
+                Console.WriteLine("Parolu daxil edin");
                 string parol = Console.ReadLine();
-
-                if (IsUserAuthenticated(istifadeciAdi, parol))
+                if (!IsUserAuthenticated(istifadeciAdi, parol))
                 {
-                    var (seriya, ad, soyad, tev, ceki, hardan, hara, status) = GetUserInputs();
+                    Console.WriteLine("Daxil etdiyiniz istifadeci adi ve ya parol sehvdir.");
+                    return;
                 }
+                (string seriya, string ad, string soyad, int tev, double ceki, string hardan, string hara, string status) = GetUserInputs();
+
 
                 if (status == "Vetendas")
                 {
@@ -33,7 +36,7 @@ namespace tapsiriq //hava_limani
                     {
                         CheckTurkishTicketDetails(tev, ceki);
                     }
-                    else if (hardan == "Naxcivan" && "Baki")
+                    else if (hardan == "Naxcivan" && hara == "Baki")
                     {
                         CheckBakuTicketDetails(tev, ceki);
                     }
@@ -55,12 +58,6 @@ namespace tapsiriq //hava_limani
                 else
                 {
                     HandlelnvalidStatus();
-                }
-
-
-             else
-                {
-                    Console.WriteLine("Daxil etdiyiniz istifadeci adi ve/veya parol sehvdir.");
 
                 }
 
@@ -71,11 +68,11 @@ namespace tapsiriq //hava_limani
             }
             Console.ReadKey();
         }
-        private static bool IsUserAuthenticated(string istifadeciAdi && string parol)
+        private static bool IsUserAuthenticated(string istifadeciAdi, string parol)
         {
             return istifadeciAdi == IstifadeciAdi && parol == Parol;
         }
-        private static (string, string, string, int, double, string, string, string)
+        private static (string,string,string,int, double, string, string, string)
             GetUserInputs()
         {
             //Console.WriteLine("Kimliyinizin seriya nomresi");
@@ -86,7 +83,7 @@ namespace tapsiriq //hava_limani
 
             //Console.WriteLine("Soyadinizi daxil edin");
             string soyad = GetValidatedInput("Soyadinizi daxil edin", x => !string.IsNullOrEmpty(x));
-            int ev = GetValidIntegerInput("Tevelludunuzu yazin");
+            int tev = GetValidIntegerInput("Tevelludunuzu yazin");
             double ceki = GetValidDoubleInput("Aparacaginiz cekini daxil edin");
 
             //Console.WriteLine(Hardan");
@@ -96,7 +93,7 @@ namespace tapsiriq //hava_limani
             string hara = GetValidatedInput("Haraya", x => !string.IsNullOrEmpty(x));
 
             //Console.WriteLine("Statusunuzu qeyd edin");
-            string status = GetValidatedInput("Sttusunuzu qeyd edin", x => !string.IsNullOrEmpty(x));
+            string status = GetValidatedInput("Statusunuzu qeyd edin", x => !string.IsNullOrEmpty(x));
 
             return (seriya, ad, soyad, tev, ceki, hardan, hara, status);
         }
@@ -117,7 +114,7 @@ namespace tapsiriq //hava_limani
         }
         private static double GetValidDoubleInput(string messsage)
         {
-            return double.Parse(GetValidatedInput(messsage, x => double.TryParse(x, out _);
+            return double.Parse(GetValidatedInput(messsage, x => double.TryParse(x, out _)));
         }
         private static void CheckTurkishTicketDetails(int tev,double ceki)
         {
@@ -130,7 +127,7 @@ namespace tapsiriq //hava_limani
                 {
 
                     double hesab = QiymetNaxTurk + ((ceki - 11) * 0.5);
-                    Console.WriteLine(ceki limitini kecmisiniz.Bilet qiymeti ve ceki ucun odeyeceyiniz mebleg: "+hesab"Azn");
+                    Console.WriteLine( "Çeki limitini kecmisiniz.Bilet qiymeti ve ceki ucun odeyeceyiniz mebleg: "+hesab+"Azn");
 
                 }
 
@@ -149,7 +146,7 @@ namespace tapsiriq //hava_limani
             else if (tev > 16)
             {
                 if (ceki <= 23)
-                    Console.WriteLine("Sizin biletin qiyməti " + "QiymətNaxTurk+ "Azn"+"Apara biləcəyiniz çəki 23 kq");
+                    Console.WriteLine("Sizin biletin qiyməti " + "QiymətNaxTurk"+ "Azn"+"Apara biləcəyiniz çəki 23 kq");
                else
                {
                     double hesab = QiymetNaxTurk + ((ceki - 24) * 0.5);
@@ -182,7 +179,7 @@ namespace tapsiriq //hava_limani
                 else
                 {
                     double hesab = QiymetNaxBak + ((ceki - 21) * 0.5);
-                    Console.WriteLine(Çəki limitini keçmisiniz.Bilet qiyməti və çəki üçün ödəyəcəyiniz məbləğ: "+hesab+"Azn");
+                    Console.WriteLine("Çəki limitini keçmisiniz.Bilet qiyməti və çəki üçün ödəyəcəyiniz məbləğ: "+ hesab + " Azn");
                 }
             }
             else if (tev > 16)
@@ -197,7 +194,7 @@ namespace tapsiriq //hava_limani
             }
             else 
             {
-                Console.WriteLine(" Yaşıniz uyöun deyil");
+                Console.WriteLine(" Yaşıniz uyğun deyil");
             }
 
         }
